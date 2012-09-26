@@ -1,4 +1,18 @@
 var BrowserAJAX = function() {
+	var handler = function handler() {
+		if(this.readyState == this.DONE) {
+			if (this.status == 200 &&
+				this.responseXML != null &&
+				this.responseXML.getElementById('test').textContent) {
+				// success!
+				//processData(this.responseXML.getElementById('test').textContent);
+				return;
+			}
+			// something went wrong
+			//processData(null);
+		}
+	}
+
 	this.makeRequest = function(request, callback) {
 		if (arguments.length < 2)
 			throw new Error('[request, callback arguments required]');
@@ -12,6 +26,10 @@ var BrowserAJAX = function() {
 			throw new Error('[callback must be a function]');
 		}
 
-		throw new Error('[not implemented]');
+		request.onreadystatechange = handler;
+
+
+
+		done();
 	};
 };
