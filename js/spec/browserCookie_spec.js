@@ -30,7 +30,7 @@ describe('browserCookie', function() {
 			YY = YY + 1;
 
 			var key = 'visited';
-			var value = 'aidssurvey.com';
+			var value = 'target.com';
 			var oneYearAfterToday = new Date(MM + '/' + DD + '/' + YY);
 			var expectedText = key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
 
@@ -50,7 +50,7 @@ describe('browserCookie', function() {
 				browserCookieComponent = new BrowserCookie();
 
 			var key = 'visited';
-			var value = 'aidssurvey.com';
+			var value = 'target.com';
 
 			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 			document.cookie = cookieText;
@@ -63,7 +63,7 @@ describe('browserCookie', function() {
 				browserCookieComponent = new BrowserCookie();
 
 			var key = 'visited';
-			var value = 'aidssurvey.com';
+			var value = 'target.com';
 
 			var currentDate = new Date();
 			var MM = currentDate.getMonth() + 1;
@@ -92,7 +92,7 @@ describe('browserCookie', function() {
 
 		it('should delete cookie by key, if key value is valid', function() {
 			var key = 'visited';
-			var value = 'aidssurvey.com';
+			var value = 'target.com';
 
 			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 			document.cookie = cookieText;

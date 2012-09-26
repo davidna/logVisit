@@ -9,34 +9,36 @@
 
     <title>logVisit</title>
 
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/index.min.css">
+
     <script type="text/javascript" src="js/libs/jquery/jquery-1.8.0.min.js"></script>
 	<script type="text/javascript" src="js/browserCookie.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var browserCookie = new BrowserCookie();
+			var key = 'visited';
+			var value = 'target.com'
 			
-			var divInstructions = $('.surveyInstructions');
-			var divTaken = $('.surveyTaken');
+			if (!browserCookie.currentBrowserVisitedSite(key, value)) {
+				document.cookie = browserCookie.getCookieTextExpiresOneYear(key, value);
 
-			if (!browserCookie.currentBrowserVisitedSite()) {
-				document.cookie = browserCookie.getCookieTextExpiresOneYear();
-
-				$('.surveyInstructions').show();
+				$('.instructions').show();
 			} else {
 				
-				$('.surveyTaken').show();
+				$('.visitedAlready').show();
 			}
 		});
 	</script>
 </head>
 <body>
-	<div class="surveyInstructions" style="display:none">
+	<div class="instructions" style="display:none">
 		<p>instructions.</p>
 		<button type="button" formtarget='_self' onclick='window.location="http://target.com";'>Go to Target</button>
 	</div>
 
-	<div class="surveyTaken" style="display:none">
+	<div class="visitedAlready" style="display:none">
 		taken already message.
 	</div>
 </body>
