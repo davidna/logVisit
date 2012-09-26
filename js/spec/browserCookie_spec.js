@@ -26,10 +26,12 @@ describe('browserCookie', function() {
 			if (DD < 10) DD = '0' + DD;
 			YY = YY + 1;
 
+			var key = 'visited';
+			var value = 'aidssurvey.com';
 			var oneYearAfterToday = new Date(MM + '/' + DD + '/' + YY);
-			var expectedText = "visited=" + "aidssurvey.com;expires=" + oneYearAfterToday.toGMTString();
+			var expectedText = key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
 
-			var actualText = browserCookieComponent.getCookieTextExpiresOneYear();
+			var actualText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 
 			expect(actualText).toEqual(expectedText);
 		});
@@ -44,7 +46,10 @@ describe('browserCookie', function() {
 			if (!browserCookieComponent) 
 				browserCookieComponent = new BrowserCookie();
 
-			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear();
+			var key = 'visited';
+			var value = 'aidssurvey.com';
+
+			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 			document.cookie = cookieText;
 
 			expect(browserCookieComponent.currentBrowserVisitedSite()).toBeTruthy();

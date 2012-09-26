@@ -1,10 +1,10 @@
 var BrowserCookie = function () {
 
-	this.getCookieTextExpiresOneYear = function() {
-		return this.getCookieTextExpiresByYear(1);
+	this.getCookieTextExpiresOneYear = function(key, value) {
+		return this.getCookieTextExpiresByYear(key, value, 1);
 	};
 
-	this.getCookieTextExpiresByYear = function(year) {
+	this.getCookieTextExpiresByYear = function(key, value, year) {
 		var currentDate = new Date();
 		var MM = currentDate.getMonth() + 1;
 		var DD = currentDate.getDate();
@@ -16,7 +16,7 @@ var BrowserCookie = function () {
 
 		var oneYearAfterToday = new Date(MM + '/' + DD + '/' + YY);
 
-		return "visited=" + "aidssurvey.com;expires=" + oneYearAfterToday.toGMTString();
+		return key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
 	};
 
 	this.currentBrowserVisitedSite = function() {
