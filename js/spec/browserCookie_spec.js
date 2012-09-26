@@ -12,10 +12,6 @@ describe('browserCookie', function() {
 		expect(browserCookieComponent.getCookieTextExpiresOneYear).toBeDefined();
 	});
 
-	it('should have a currentBrowserVisitedSite() method', function () {
-		expect(browserCookieComponent.currentBrowserVisitedSite).toBeDefined();
-	});
-
 	describe('getCookieTextExpiresOneYear() method', function() {
 		it('should return expected text to be written into the cookie.', function() {
 			if (!browserCookieComponent) 
@@ -37,6 +33,10 @@ describe('browserCookie', function() {
 
 			expect(actualText).toEqual(expectedText);
 		});
+	});
+
+	it('should have a currentBrowserVisitedSite() method', function () {
+		expect(browserCookieComponent.currentBrowserVisitedSite).toBeDefined();
 	});
 
 	describe('currentBrowserVisitedSite() method', function() {
@@ -68,6 +68,22 @@ describe('browserCookie', function() {
 
 			expect(browserCookieComponent.currentBrowserVisitedSite()).toBeFalsy();
 		});
-	})
+	});
+
+	it('should have a getCookieTextExpiresByYear() method', function () {
+		expect(browserCookieComponent.getCookieTextExpiresByYear).toBeDefined();
+	});	
+
+	it('should have a currentBrowserHasCookieKeyValue() method', function() {
+		expect(browserCookieComponent.currentBrowserHasCookieKeyValue).toBeDefined();
+	});
+
+	// describe('getCookieTextExpiresByyear() method', function() {
+
+	// });
+
+	
+
+	
 
 });
