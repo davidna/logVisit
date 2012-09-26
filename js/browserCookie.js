@@ -19,8 +19,8 @@ var BrowserCookie = function () {
 		return key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
 	};
 
-	this.currentBrowserVisitedSite = function() {
-		return this.currentBrowserHasCookieKeyValue('visited', 'aidssurvey.com');
+	this.currentBrowserVisitedSite = function(key, value) {
+		return this.currentBrowserHasCookieKeyValue(key, value);
 	};
 
 	this.currentBrowserHasCookieKeyValue = function(key, value) {
@@ -44,5 +44,26 @@ var BrowserCookie = function () {
 		}
 
 		return false;
+	};
+
+	this.deleteCookieByKey = function(key) {
+
+		if (arguments.length < 1) {
+			throw new Error('[argument:key is required]');
+		}
+
+		var currentDate = new Date();
+		var MM = currentDate.getMonth() + 1;
+		var DD = currentDate.getDate() - 1;
+		var YY = currentDate.getFullYear();
+
+		if (MM < 10) MM = '0' + MM;
+		if (DD < 10) DD = '0' + DD;
+
+		var oneDayBeforeToday = new Date(MM + '/' + DD + '/' + YY);
+
+		document.cookie = key + '=value_does_not_matter' + ';expires=' + oneDayBeforeToday.toGMTString();
+
+		return true;	
 	};
 };
