@@ -2,9 +2,11 @@ describe('browserCookie', function() {
 	
 	var browserCookieComponent;
 
-	it('should have a constructor', function() {
+	beforeEach(function() {
 		browserCookieComponent = new BrowserCookie();
+	});
 
+	it('should have a constructor', function() {
 		expect(browserCookieComponent).toBeDefined();
 	});
 
