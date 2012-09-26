@@ -69,21 +69,4 @@ describe('browserCookie', function() {
 			expect(browserCookieComponent.currentBrowserVisitedSite()).toBeFalsy();
 		});
 	});
-
-	it('should have a getCookieTextExpiresByYear() method', function () {
-		expect(browserCookieComponent.getCookieTextExpiresByYear).toBeDefined();
-	});	
-
-	it('should have a currentBrowserHasCookieKeyValue() method', function() {
-		expect(browserCookieComponent.currentBrowserHasCookieKeyValue).toBeDefined();
-	});
-
-	// describe('getCookieTextExpiresByyear() method', function() {
-
-	// });
-
-	
-
-	
-
 });

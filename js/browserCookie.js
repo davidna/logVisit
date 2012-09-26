@@ -20,27 +20,6 @@ var BrowserCookie = function () {
 	};
 
 	this.currentBrowserVisitedSite = function() {
-		// var cookieSet = document.cookie;
-		// if (cookieSet && cookieSet.length > 0) {
-		// 	var firstIndex = cookieSet.indexOf('visited');
-		// 	var lastIndex;
-
-		// 	if (firstIndex != -1) {
-		// 		firstIndex = firstIndex + 8;
-		// 		lastIndex = cookieSet.indexOf(';', firstIndex);
-
-		// 		if (lastIndex == -1) {
-		// 			lastIndex = cookieSet.length;
-		// 		}
-
-		// 		var actualVisitedCookie = unescape(cookieSet.substring(firstIndex, lastIndex));
-
-		// 		return actualVisitedCookie == 'aidssurvey.com';
-		// 	}
-		// }
-
-		// return false;
-
 		return this.currentBrowserHasCookieKeyValue('visited', 'aidssurvey.com');
 	};
 
