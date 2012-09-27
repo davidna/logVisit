@@ -16,7 +16,7 @@ describe('browserCookie', function() {
 	});
 
 	describe('getCookieTextExpiresOneYear() method', function() {
-		it('should return expected text to be written into the cookie.', function() {
+		it('should return expected text to be written into the cookie, given valid arguments', function() {
 			if (!browserCookieComponent) 
 				browserCookieComponent = new BrowserCookie();
 
@@ -37,6 +37,23 @@ describe('browserCookie', function() {
 			var actualText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 
 			expect(actualText).toEqual(expectedText);
+		});
+
+		it('should throw error, given no argument [key]', function() {
+			var argumentRequiredKeyError = new Error('required: key');
+
+			expect(function() {
+				browserCookieComponent.getCookieTextExpiresOneYear();
+			}).toThrow(argumentRequiredKeyError);
+		});
+
+		it('should throw error, given no argument [value]', function() {
+			var argumentRequiredValueError = new Error('required: value');
+			var keyDefined = 'key';
+
+			expect(function() {
+				browserCookieComponent.getCookieTextExpiresOneYear(keyDefined);
+			}).toThrow(argumentRequiredValueError);
 		});
 	});
 
