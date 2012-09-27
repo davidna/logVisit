@@ -5,6 +5,11 @@ var BrowserCookie = function () {
 	};
 
 	this.getCookieTextExpiresByYear = function(key, value, year) {
+
+		if (!key) throw new Error('key argument is required');
+
+		if (!value) throw new Error('value argument is required');
+
 		var currentDate = new Date();
 		var MM = currentDate.getMonth() + 1;
 		var DD = currentDate.getDate();

@@ -1,15 +1,19 @@
 var BrowserAJAX = function() {
-	var handler = function handler() {
+	var handler = function handler(callback) {
 		if(this.readyState == this.DONE) {
 			if (this.status == 200 &&
 				this.responseXML != null &&
 				this.responseXML.getElementById('test').textContent) {
 				// success!
 				//processData(this.responseXML.getElementById('test').textContent);
+				callback.success(callback);
+
 				return;
 			}
 			// something went wrong
 			//processData(null);
+			callback.failure(callback);
+			return;
 		}
 	}
 
@@ -26,10 +30,8 @@ var BrowserAJAX = function() {
 			throw new Error('[callback must be a function]');
 		}
 
-		request.onreadystatechange = handler;
+		request.onreadystatechange = handler(callback);
 
-
-
-		done();
+		return;
 	};
 };
