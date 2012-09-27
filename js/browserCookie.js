@@ -24,6 +24,10 @@ var BrowserCookie = function () {
 		return key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
 	};
 
+	this.appendCookieTextExpiresOneYear = function(key, value, originalCookie) {
+		
+	}
+
 	this.currentBrowserVisitedSite = function(key, value) {
 		return this.currentBrowserHasCookieKeyValue(key, value);
 	};
@@ -56,6 +60,8 @@ var BrowserCookie = function () {
 		if (arguments.length < 1) {
 			throw new Error('[argument:key is required]');
 		}
+
+		console.log(document.cookie);
 
 		var currentDate = new Date();
 		var MM = currentDate.getMonth() + 1;

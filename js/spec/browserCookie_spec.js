@@ -57,6 +57,10 @@ describe('browserCookie', function() {
 		});
 	});
 
+	it('should have a appendCookieTextExpiresOneYear() method', function() {
+		expect(browserCookieComponent.appendCookieTextExpiresOneYear).toBeDefined();
+	});
+
 	it('should have a currentBrowserVisitedSite() method', function () {
 		expect(browserCookieComponent.currentBrowserVisitedSite).toBeDefined();
 	});
@@ -119,5 +123,29 @@ describe('browserCookie', function() {
 			expect(deleteCookieByKeyResult).toBeTruthy();
 			expect(document.cookie.indexOf(key)).toBe(-1);
 		});
+
+		// it('should delete cookie only with the specified key, not any other', function() {
+		// 	var deleteKey = 'keyShouldBeDeleted';
+		// 	var deleteValue = 'valueShouldBeDeleted';
+		// 	var doNotDeleteKey = 'keyShouldBeKept';
+		// 	var doNotDeleteValue = 'valueShouldBeKept';
+
+		// 	var deleteCookieText = browserCookieComponent.getCookieTextExpiresOneYear(deleteKey, deleteValue);
+		// 	var doNotDeleteCookieText = browserCookieComponent.getCookieTextExpiresOneYear(doNotDeleteKey, doNotDeleteValue);
+
+		// 	var shouldGoIntoDocumentCookie = deleteCookieText + ';' + doNotDeleteCookieText;
+
+		// 	console.log(shouldGoIntoDocumentCookie);
+			
+		// 	document.cookie = shouldGoIntoDocumentCookie;
+
+		// 	var deleteCookieByKeyResult = browserCookieComponent.deleteCookieByKey(deleteKey);
+
+		// 	expect(deleteCookieByKeyResult).toBeTruthy();
+		// 	expect(document.cookie.indexOf(deleteKey)).toBe(-1);
+		// 	expect(document.cookie.indexOf(deleteValue)).toBe(-1);
+		// 	expect(document.cookie.indexOf(doNotDeleteKey)).not.toBe(-1);
+		// 	expect(document.cookie.indexOf(doNotDeleteValue)).not.toBe(-1);
+		// });
 	});
 });
