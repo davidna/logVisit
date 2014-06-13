@@ -5,6 +5,7 @@ describe('browserCookie', function() {
 
 	beforeEach(function() {
 		browserCookieComponent = new BrowserCookie();
+		document.cookie = null;
 	});
 
 	it('should have a constructor', function() {
@@ -32,7 +33,7 @@ describe('browserCookie', function() {
 			var key = 'visited';
 			var value = 'target.com';
 			var oneYearAfterToday = new Date(MM + '/' + DD + '/' + YY);
-			var expectedText = key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString();
+			var expectedText = key + "=" + value + ";expires=" + oneYearAfterToday.toGMTString() + ';';
 
 			var actualText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
 
@@ -57,8 +58,76 @@ describe('browserCookie', function() {
 		});
 	});
 
+	it('should have a stripCookieExpiresItemFromCookieText() method', function() {
+		expect(browserCookieComponent.stripCookieExpiresItemFromCookieText).toBeDefined();
+	});
+
+	describe('stripCookieExpiresItemFromCookieText() method', function() {
+		it('should throw error, if no argument [cookieText]', function() {
+			var missingCookieTextArgumentError = new Error('required: cookieText');
+
+			expect(function() {
+				browserCookieComponent.stripCookieExpiresItemFromCookieText();
+			}).toThrow(missingCookieTextArgumentError);
+		});
+
+		it('should strip expires-item (key-value-pair) from given cookieText', function() {
+			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear('key', 'value');
+
+			var expiresStrippedCookieText = browserCookieComponent.stripCookieExpiresItemFromCookieText(cookieText);
+
+			expect(expiresStrippedCookieText.indexOf('expires')).toBe(-1);
+		});
+	});
+
 	it('should have a appendCookieTextExpiresOneYear() method', function() {
 		expect(browserCookieComponent.appendCookieTextExpiresOneYear).toBeDefined();
+	});
+
+	describe('appendCookieTextExpiresOneYear() method', function() {
+		it('should throw error, given no argument [key]', function() {
+			var argumentRequiredKeyError = new Error('required: key');
+
+			expect(function() {
+				browserCookieComponent.appendCookieTextExpiresOneYear();
+			}).toThrow(argumentRequiredKeyError);
+		});
+
+		it('should throw error, given no argument [value]', function() {
+			var argumentRequiredValueError = new Error('required: value');
+			var keyDefined = 'key';
+
+			expect(function() {
+				browserCookieComponent.appendCookieTextExpiresOneYear(keyDefined);
+			}).toThrow(argumentRequiredValueError);
+		});
+
+		it('should throw error, given no argument [originalCookieText]', function() {
+			var argumentRequiredOriginalCookieError = new Error('required: originalCookieText');
+			var keyDefined = 'key';
+			var valueDefined = 'value';
+
+			expect(function() {
+				browserCookieComponent.appendCookieTextExpiresOneYear(keyDefined, valueDefined);
+			}).toThrow(argumentRequiredOriginalCookieError);
+		});
+
+		it('should return cookie-text with all original-cookie key-value-pairs', function() {
+			var oldKey = 'oldKey';
+			var oldValue = 'oldValue';
+
+			var oldCookieText = browserCookieComponent.getCookieTextExpiresOneYear(oldKey, oldValue);
+
+			var newKey = 'newKey';
+			var newValue = 'newValue';
+
+			var newCookieText = browserCookieComponent.appendCookieTextExpiresOneYear(newKey, newValue, oldCookieText);
+
+			expect(newCookieText.indexOf(oldKey)).not.toBe(-1);
+			expect(newCookieText.indexOf(oldValue)).not.toBe(-1);
+			expect(newCookieText.indexOf(newKey)).not.toBe(-1);
+			expect(newCookieText.indexOf(newValue)).not.toBe(-1);
+		});
 	});
 
 	it('should have a currentBrowserVisitedSite() method', function () {
@@ -67,9 +136,6 @@ describe('browserCookie', function() {
 
 	describe('currentBrowserVisitedSite() method', function() {
 		it('should return [true] if cookie exists', function() {
-			if (!browserCookieComponent) 
-				browserCookieComponent = new BrowserCookie();
-
 			var key = 'visited';
 			var value = 'target.com';
 
@@ -80,9 +146,6 @@ describe('browserCookie', function() {
 		});
 
 		it('should return [false] if cookie does not exist', function() {
-			if (!browserCookieComponent) 
-				browserCookieComponent = new BrowserCookie();
-
 			var key = 'visited';
 			var value = 'target.com';
 
@@ -111,41 +174,57 @@ describe('browserCookie', function() {
 			expect(function() { browserCookieComponent.deleteCookieByKey() }).toThrow(argumentKeyUndefinedError);
 		});
 
-		it('should delete cookie by key, if key value is valid', function() {
-			var key = 'visited';
-			var value = 'target.com';
+		// it('should delete cookie by key, if key value is valid', function() {
+		// 	var key = 'visited';
+		// 	var value = 'target.com';
 
-			var cookieText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
-			document.cookie = cookieText;
+		// 	var cookieText = browserCookieComponent.getCookieTextExpiresOneYear(key, value);
+		// 	document.cookie = cookieText;
 
-			var deleteCookieByKeyResult = browserCookieComponent.deleteCookieByKey(key);
-
-			expect(deleteCookieByKeyResult).toBeTruthy();
-			expect(document.cookie.indexOf(key)).toBe(-1);
-		});
-
-		// it('should delete cookie only with the specified key, not any other', function() {
-		// 	var deleteKey = 'keyShouldBeDeleted';
-		// 	var deleteValue = 'valueShouldBeDeleted';
-		// 	var doNotDeleteKey = 'keyShouldBeKept';
-		// 	var doNotDeleteValue = 'valueShouldBeKept';
-
-		// 	var deleteCookieText = browserCookieComponent.getCookieTextExpiresOneYear(deleteKey, deleteValue);
-		// 	var doNotDeleteCookieText = browserCookieComponent.getCookieTextExpiresOneYear(doNotDeleteKey, doNotDeleteValue);
-
-		// 	var shouldGoIntoDocumentCookie = deleteCookieText + ';' + doNotDeleteCookieText;
-
-		// 	console.log(shouldGoIntoDocumentCookie);
-			
-		// 	document.cookie = shouldGoIntoDocumentCookie;
-
-		// 	var deleteCookieByKeyResult = browserCookieComponent.deleteCookieByKey(deleteKey);
+		// 	var deleteCookieByKeyResult = browserCookieComponent.deleteCookieByKey(key);
 
 		// 	expect(deleteCookieByKeyResult).toBeTruthy();
-		// 	expect(document.cookie.indexOf(deleteKey)).toBe(-1);
-		// 	expect(document.cookie.indexOf(deleteValue)).toBe(-1);
-		// 	expect(document.cookie.indexOf(doNotDeleteKey)).not.toBe(-1);
-		// 	expect(document.cookie.indexOf(doNotDeleteValue)).not.toBe(-1);
+		// 	expect(document.cookie.indexOf(key)).toBe(-1);
 		// });
+
+		it('should delete cookie only with the specified key, not any other', function() {
+			var deleteKey = 'keyShouldBeDeleted';
+			var deleteValue = 'valueShouldBeDeleted';
+			var doNotDeleteKey = 'keyShouldBeKept';
+			var doNotDeleteValue = 'valueShouldBeKept';
+
+			var deleteCookieText = browserCookieComponent.getCookieTextExpiresOneYear(deleteKey, deleteValue);
+			var shouldGoIntoDocumentCookie = browserCookieComponent.appendCookieTextExpiresOneYear(doNotDeleteKey, doNotDeleteValue, deleteCookieText);
+
+			document.cookie = shouldGoIntoDocumentCookie;
+
+			console.log('pre-delete cookie: ' + document.cookie);
+
+			var deleteCookieByKeyResult = browserCookieComponent.deleteCookieByKey(deleteKey);
+
+			console.log('post-delete cookie: ' + document.cookie);
+
+			expect(deleteCookieByKeyResult).toBeTruthy();
+			expect(document.cookie.indexOf(deleteKey)).toBe(-1);
+			expect(document.cookie.indexOf(deleteValue)).toBe(-1);
+			expect(document.cookie.indexOf(doNotDeleteKey)).not.toBe(-1);
+			expect(document.cookie.indexOf(doNotDeleteValue)).not.toBe(-1);
+		});
 	});
+
+	// it('try', function() {
+	// 	console.log(typeof undefined);
+
+	// 	console.log(typeof null);
+
+	// 	console.log(typeof true);
+
+	// 	console.log(typeof 1);
+
+	// 	console.log(typeof 'a');
+
+	// 	console.log(typeof object);
+
+	// 	console.log(typeof function() { return; });
+	// });
 });
