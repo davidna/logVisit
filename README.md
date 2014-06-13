@@ -30,4 +30,14 @@ variables are passed-through (out of component scope)
 <p>&nbsp;</p>
 ***
 
+### http-header
+
+http-header variables are passed-through (within scope of component)
+<ul>
+  <li>Given I am using a browser that supports http-headers</li>
+  <li>When I go to the site,</li>
+  <li>Then the http-header variable is sent on the response</li>
+  <li>And I am shown content with instructions to continue to target</li>
+</ul>
+
 #### for out-of-scope scenarios, consider using/creating surrounding components
